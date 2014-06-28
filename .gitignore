@@ -1,0 +1,17 @@
+finnalytics.sublime-workspace
+*.pyc
+*.pyo
+.develop/*
+bin/*
+lib/*
+include/*
+.Python
+.DS_Store
+*.DS_Store
+build/
+canteen.egg-info/
+man/
+dist/
+build/
+node_modules/
+*.report.txt

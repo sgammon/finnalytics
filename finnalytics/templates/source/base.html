@@ -1,0 +1,18 @@
+<!doctype html>
+
+<html>
+<head>
+  <title>finna count sum numbahs</title>
+  <link rel="stylesheet" href="{{ asset.style('main.css') }}" media='all'>
+</head>
+<body>
+
+  {% block root %}<b>Hello, world!</b>{% endblock %}
+
+  {% block js %}
+    <script type="text/javascript">function _load_apptools(event){ {% autoescape off %} {{ services.describe(javascript=True) }} {% endautoescape %} };</script>
+    <script type="text/javascript" src="{{ asset.script('apptools-min.js') }}" defer async onload="_load_apptools(event);"></script>
+  {% endblock js %}
+
+</body>
+</html>
