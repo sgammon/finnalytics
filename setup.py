@@ -2,8 +2,8 @@
 
 '''
 
-  finnalytics: setup
-  ~~~~~~~~~~~~~~~~~~
+  setup
+  ~~~~~
 
   :author: Sam Gammon <sam@momentum.io>
   :author: Ian Weisberger <ian@momentum.io>
@@ -32,7 +32,10 @@ tools.setup(name="finnalytics",
             packages=[
               "finnalytics",
               "finnalytics.logic",
-              "finnalytics.services"
+              "finnalytics.services",
+              "finnalytics.services.read",
+              "finnalytics.services.write",
+              "finnalytics.services.security"
             ] + [
               "finnalytics_tests"
             ] if __debug__ else [],

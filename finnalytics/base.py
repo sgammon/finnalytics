@@ -2,8 +2,8 @@
 
 '''
 
-  finnalytics: base
-  ~~~~~~~~~~~~~~~~~
+  base
+  ~~~~
 
   :author: Sam Gammon <sam@momentum.io>
   :author: Ian Weisberger <ian@momentum.io>

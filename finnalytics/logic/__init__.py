@@ -2,8 +2,8 @@
 
 '''
 
-  finnalytics: logic
-  ~~~~~~~~~~~~~~~~~~
+  logic
+  ~~~~~
 
   :author: Sam Gammon <sam@momentum.io>
   :author: Ian Weisberger <ian@momentum.io>

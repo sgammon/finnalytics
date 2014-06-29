@@ -2,8 +2,8 @@
 
 '''
 
-  finnalytics: tests
-  ~~~~~~~~~~~~~~~~~~
+  tests
+  ~~~~~
 
   :author: Sam Gammon <sam@momentum.io>
   :author: Ian Weisberger <ian@momentum.io>

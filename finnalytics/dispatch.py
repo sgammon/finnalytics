@@ -2,8 +2,8 @@
 
 '''
 
-  finnalytics: WSGI gateway
-  ~~~~~~~~~~~~~~~~~~~~~~~~~
+  WSGI gateway
+  ~~~~~~~~~~~~
 
   :author: Sam Gammon <sam@momentum.io>
   :author: Ian Weisberger <ian@momentum.io>

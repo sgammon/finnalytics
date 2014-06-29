@@ -2,8 +2,8 @@
 
 '''
 
-  finnalytics: services
-  ~~~~~~~~~~~~~~~~~~~~~
+  services
+  ~~~~~~~~
 
   :author: Sam Gammon <sam@momentum.io>
   :author: Ian Weisberger <ian@momentum.io>
@@ -21,7 +21,15 @@
 
 
 # submodules
+from . import read
+from . import write
+
+# sub-submodules
+from .read import *
+from .write import *
 
 
 __all__ = (
+  'read',
+  'write'
 )
