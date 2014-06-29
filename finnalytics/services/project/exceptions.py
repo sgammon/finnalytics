@@ -2,8 +2,8 @@
 
 '''
 
-  write service messages
-  ~~~~~~~~~~~~~~~~~~~~~~
+  project service exceptions
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   :author: Sam Gammon <sam@momentum.io>
   :author: Ian Weisberger <ian@momentum.io>
@@ -18,3 +18,12 @@
             license and explicitly means acceptance to these terms.
 
 '''
+
+# base
+from base import rpc
+
+
+class ProjectAPIException(rpc.premote.ApplicationError):
+
+  ''' Generic exception indicating an error related
+      to the :py:class:`ProjectAPI`. '''

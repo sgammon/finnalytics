@@ -2,8 +2,8 @@
 
 '''
 
-  write service
-  ~~~~~~~~~~~~~
+  project service messages
+  ~~~~~~~~~~~~~~~~~~~~~~~~
 
   :author: Sam Gammon <sam@momentum.io>
   :author: Ian Weisberger <ian@momentum.io>
@@ -22,26 +22,15 @@
 # app
 import models
 
-# service
-from . import exceptions
-
-# base
-from base import rpc, Service
-from base import public, protected
+# canteen
+from canteen import model
 
 
-@public('write', version='v1')
-class WriteAPI(Service):
+class Projects(model.Model):
 
-  '''  '''
+  ''' Contains a set of projects returned
+      from an API request. '''
 
-  exceptions = rpc.Exceptions({
-    'generic': exceptions.WriteAPIException
-  })
-
-  @public(models.Event, models.Result)
-  def event(self, request):
-
-    '''  '''
-
-    raise self.exceptions.generic('stubbed')
+  count = int, {'default': 0}
+  offset = int, {'default': 0}
+  data = models.Project, {'repeated': True}

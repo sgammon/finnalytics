@@ -18,3 +18,12 @@
             license and explicitly means acceptance to these terms.
 
 '''
+
+# base
+from base import rpc
+
+
+class WriteAPIException(rpc.premote.ApplicationError):
+
+  ''' Generic exception indicating an error related
+      to the :py:class:`WriteAPI`. '''

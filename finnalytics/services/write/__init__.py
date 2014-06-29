@@ -18,3 +18,13 @@
             license and explicitly means acceptance to these terms.
 
 '''
+
+# submodules
+from . import service
+from . import exceptions
+
+
+__all__ = (
+  'service',
+  'exceptions'
+)

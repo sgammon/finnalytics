@@ -2,8 +2,8 @@
 
 '''
 
-  write service
-  ~~~~~~~~~~~~~
+  project service
+  ~~~~~~~~~~~~~~~
 
   :author: Sam Gammon <sam@momentum.io>
   :author: Ian Weisberger <ian@momentum.io>
@@ -19,29 +19,14 @@
 
 '''
 
-# app
-import models
-
-# service
+# submodules
+from . import service
+from . import messages
 from . import exceptions
 
-# base
-from base import rpc, Service
-from base import public, protected
 
-
-@public('write', version='v1')
-class WriteAPI(Service):
-
-  '''  '''
-
-  exceptions = rpc.Exceptions({
-    'generic': exceptions.WriteAPIException
-  })
-
-  @public(models.Event, models.Result)
-  def event(self, request):
-
-    '''  '''
-
-    raise self.exceptions.generic('stubbed')
+__all__ = (
+  'service',
+  'messages',
+  'exceptions'
+)
