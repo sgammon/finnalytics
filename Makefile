@@ -108,7 +108,8 @@ $(PWD)/.develop: $(PWD)/node_modules
 	@-chmod 777 $(SCRATCHSPACE) -R
 
 	@echo "Initializing frontend..."
-	@-node_modules/grunt-cli/bin/grunt
+	@-ln -s node_modules/gulp/bin/gulp ./bin
+	@-bin/gulp
 
 $(PWD)/lib/closure/compiler.jar:
 	@echo "Downloading Closure Compiler..."
