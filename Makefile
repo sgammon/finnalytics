@@ -25,13 +25,16 @@ USER?=`whoami`
 SANDBOX_GIT?=$(USER)@sandbox
 CANTEEN_BRANCH?=master
 SCRATCHSPACE=.develop
+BREWDEPS
 
 ## Flags
 TEST_FLAGS ?= --verbose --with-coverage --cover-package=finnalytics --cover-package=finnalytics_tests
 
 
 all: develop
+	@which zsh || echo "We noticed you're using bash or something. Execute 'source bin/activate' to go begin."
 	@echo "~~ im finna count some shit ~~"
+	@which zsh && zsh -c "source bin/activate" -i
 
 test: build
 	@bin/nosetests $(TEST_FLAGS) canteen_tests finnalytics_tests
@@ -81,18 +84,19 @@ distclean: clean
 	@git clean -xdf
 
 dependencies: $(PWD)/lib/closure/compiler.jar
-	# install pip dependencies
+	@# install pip dependencies
 	@bin/pip install colorlog
 	@bin/pip install -r requirements.txt
 
 .Python:
-	# install pip/virtualenv if we have to
+	@# install pip/virtualenv if we have to
 	@which pip || sudo easy_install pip
-	@which virtualenv || pip install virtualenv
+	@which virtualenv || pip install virtualenv virtualenvwrapper
 
-	@virtualenv .
+	@# make virtualenv and install stuffs
+	@zsh -c "source ~/.zshrc && mkvirtualenv -a $(PWD) -r requirements.txt finnalytics"
 
-	# symlink environment
+	@# symlink environment
 	@ln -s $(PWD)/scripts/finna.py $(PWD)/bin/finna
 	@chmod +x $(PWD)/bin/finna
 
