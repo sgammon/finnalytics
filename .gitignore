@@ -1,4 +1,5 @@
 finnalytics.sublime-workspace
+finnalytics.sublime-project
 *.pyc
 *.pyo
 .develop/*
