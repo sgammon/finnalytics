@@ -18,3 +18,49 @@
             license and explicitly means acceptance to these terms.
 
 '''
+
+# service
+from . import messages
+from . import exceptions
+
+# base
+from base import rpc, Service
+from base import public, protected
+
+
+@public('security', version='v1')
+class SecurityAPI(Service):
+
+  '''  '''
+
+  exceptions = rpc.Exceptions({
+    'generic': exceptions.SecurityAPIException
+  })
+
+  @public
+  def auth(self, request):
+
+    '''  '''
+
+    raise self.exceptions.generic('stubbed')
+
+  @public
+  def signup(self, request):
+
+    '''  '''
+
+    raise self.exceptions.generic('stubbed')
+
+  @protected
+  def sync(self, request):
+
+    '''  '''
+
+    raise self.exceptions.generic('stubbed')
+
+  @protected
+  def link(self, request):
+
+    '''  '''
+
+    raise self.exceptions.generic('stubbed')

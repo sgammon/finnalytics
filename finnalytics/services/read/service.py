@@ -18,3 +18,42 @@
             license and explicitly means acceptance to these terms.
 
 '''
+
+# service
+from . import messages
+from . import exceptions
+
+# base
+from base import rpc, Service
+from base import public, protected
+
+
+@public('read', version='v1')
+class ReadAPI(Service):
+
+  '''  '''
+
+  exceptions = rpc.Exceptions({
+    'generic': exceptions.ReadAPIException
+  })
+
+  @protected(messages.Projects)
+  def projects(self, request):
+
+    '''  '''
+
+    raise self.exceptions.generic('stubbed')
+
+  @protected(messages.Stats)
+  def stats(self, request):
+
+    '''  '''
+
+    raise self.exceptions.generic('stubbed')
+
+  @protected(messages.Query)
+  def query(self, request):
+
+    '''  '''
+
+    raise self.exceptions.generic('stubbed')

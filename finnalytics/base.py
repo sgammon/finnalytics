@@ -118,12 +118,12 @@ class Service(rpc.Service):
     # enforce authentication/authorization (mounted by `initialize`)
 
   @classmethod
-  def protect(cls, level):
+  def protect(cls, *args):
 
     ''' class-level decorator to transparently apply auth protection of various levels
         to an otherwise-public service method. '''
 
-    def _protected_method(cls, inner):
+    def _protected_method(cls):
 
       ''' wraps a protected method (``inner``) and attempts to validate
           previously-mounted credentials, by decorating the requested
@@ -135,6 +135,8 @@ class Service(rpc.Service):
         ''' inner wrapped method that applies the proper dispatch and
             security enforcement flow. '''
 
+      return wrapped
+    return _protected_method
 
 # bring up to module-level for syntactic sugar
-protect = Service.protect
+public, protected = rpc.remote.public, Service.protect

@@ -207,14 +207,14 @@ class APIKey(Model):
     keyhash, keycontent = Token.generate(
       project,
       length=private_length,
-      hash=hashlib.md5
+      hash=hashlib.sha1
     )
 
     # generate public
     pubhash, pubcontent = Token.generate(
       project + keyhash,
       length=public_length,
-      hash=hashlib.md5
+      hash=hashlib.sha1
     )
 
     # make APIkey object
@@ -292,7 +292,7 @@ class Invite(Model):
   project = Project, {'indexed': True, 'required': True}
 
   @classmethod
-  def new(cls, user, project):
+  def new(cls, user, project, _save):
 
     '''  '''
 
@@ -302,7 +302,36 @@ class Invite(Model):
       'token': _key(Token.new(parent=_key(project), length=invite_token_length))
     }
 
-    return cls(key=model.Key(cls, _key(user).id, parent=_key(project)), **params)
+    obj = cls(key=model.Key(cls, _key(user).id, parent=_key(project)), **params)
+    if _save: obj.put()
+    return obj
+
+
+class Result(Model):
+
+  ''' Tiny model (schema-only) that specifies the result
+      of an action, potentially tied to an HTTP status
+      code. '''
+
+  code = int, {'default': 200}
+  success = bool, {'default': True}
+
+
+class Collection(Model):
+
+  ''' Specifies an event ``collection``, which is a simple
+      string name that correlates events of a common schema. '''
+
+  name = basestring, {'required': True}
+
+  @classmethod
+  def new(cls, name, _save=False):
+
+    ''' Spawn a new :py:class:`Collection`. '''
+
+    obj = cls(key=model.Key(cls, name), name=name)
+    if _save: obj.put()
+    return obj
 
 
 class Event(Model):
