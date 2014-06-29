@@ -286,7 +286,6 @@ class Invite(Model):
       Once accepted, a corresponding record for a
       :py:class:`Permission` is created. '''
 
-
   invitee = User, {'indexed': True, 'required': True}
   invitor = User, {'indexed': True, 'required': True}
   token = Token, {'indexed': True, 'required': True}
@@ -304,3 +303,17 @@ class Invite(Model):
     }
 
     return cls(key=model.Key(cls, _key(user).id, parent=_key(project)), **params)
+
+
+class Event(Model):
+
+  ''' Model specifying an analytics event that has been
+      submitted to a ``collection`` for a given
+      :py:class:`Project`. '''
+
+  ip = basestring, {'required': True}
+  agent = basestring, {'required': True}
+  collection = basestring, {'required': True}
+  project = Project, {'required': True}
+  session = Session, {'required': False}
+  data = dict
