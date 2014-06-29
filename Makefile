@@ -25,7 +25,7 @@ USER?=`whoami`
 SANDBOX_GIT?=$(USER)@sandbox
 CANTEEN_BRANCH?=master
 SCRATCHSPACE=.develop
-BREWDEPS
+BREW=redis nginx pypy uwsgi
 
 ## Flags
 TEST_FLAGS ?= --verbose --with-coverage --cover-package=finnalytics --cover-package=finnalytics_tests
@@ -87,14 +87,15 @@ dependencies: $(PWD)/lib/closure/compiler.jar
 	@# install pip dependencies
 	@bin/pip install colorlog
 	@bin/pip install -r requirements.txt
+	@brew install $(BREW)
 
 .Python:
 	@# install pip/virtualenv if we have to
 	@which pip || sudo easy_install pip
-	@which virtualenv || pip install virtualenv virtualenvwrapper
+	@which virtualenv || pip install virtualenv
 
 	@# make virtualenv and install stuffs
-	@zsh -c "source ~/.zshrc && mkvirtualenv -a $(PWD) -r requirements.txt finnalytics"
+	@virtualenv .
 
 	@# symlink environment
 	@ln -s $(PWD)/scripts/finna.py $(PWD)/bin/finna
