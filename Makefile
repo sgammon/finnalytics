@@ -108,7 +108,7 @@ $(PWD)/.develop: $(PWD)/node_modules
 	@-chmod 777 $(SCRATCHSPACE) -R
 
 	@echo "Initializing frontend..."
-	@-ln -s node_modules/gulp/bin/gulp ./bin
+	@-ln -s node_modules/gulp/bin/gulp ./bin/gulp
 	@-bin/gulp
 
 $(PWD)/lib/closure/compiler.jar:
