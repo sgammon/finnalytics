@@ -19,6 +19,9 @@
 
 '''
 
+# stdlib
+import datetime
+
 # canteen
 from canteen import rpc, model
 from canteen.rpc import premote as proto
@@ -30,6 +33,10 @@ class BaseModel(model.Model):
   ''' base model class '''
 
   __adapter__ = 'InMemoryAdapter' if __debug__ else 'RedisAdapter'
+
+  # timestamps
+  modified = datetime.datetime, {'auto_now': True}
+  created = datetime.datetime, {'auto_now_add': True}
 
   @classmethod
   def factory(cls, parent=None, id=None, **kwargs):
