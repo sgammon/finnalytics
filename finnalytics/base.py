@@ -20,11 +20,31 @@
 '''
 
 # stdlib
-import datetime
+import sys, logging as stdlog, datetime
 
 # canteen
 from canteen import rpc, model
 from canteen.rpc import premote as proto
+
+## Logging
+logging = stdlog.getLogger('finnalytics')
+log_handler = stdlog.StreamHandler(sys.stdout)
+logging.addHandler(log_handler), logging.setLevel(stdlog.DEBUG if __debug__ else stdlog.WARNING)
+
+try:
+  from colorlog import ColoredFormatter
+except ImportError:
+  pass
+else:
+  log_handler.setFormatter(ColoredFormatter(
+    "%(log_color)s[%(levelname)s]%(reset)s %(message)s",
+    datefmt=None, reset=True, log_colors={
+      'DEBUG': 'cyan',
+      'INFO': 'green',
+      'WARNING': 'yellow',
+      'ERROR': 'red',
+      'CRITICAL': 'red'
+    }))
 
 
 ##### !!! Base Model !!! #####
