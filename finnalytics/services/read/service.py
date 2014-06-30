@@ -24,11 +24,11 @@ from . import messages
 from . import exceptions
 
 # base
-from base import rpc, Service
-from base import public, protected
+from finnalytics.base import rpc, Service
+from finnalytics.base import public, protected
 
 
-@public('read', version='v1')
+@public('read', version='v0')
 class ReadAPI(Service):
 
   '''  '''

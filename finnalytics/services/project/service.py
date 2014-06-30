@@ -19,19 +19,17 @@
 
 '''
 
-# app
-import models
-
 # service
 from . import messages
 from . import exceptions
 
-# base
-from base import rpc, Service
-from base import public, protected
+# app
+from finnalytics import models
+from finnalytics.base import rpc, Service
+from finnalytics.base import public, protected
 
 
-@public('project', version='v1')
+@public('project', version='v0')
 class ProjectAPI(Service):
 
   '''  '''

@@ -158,5 +158,6 @@ class Service(rpc.Service):
       return wrapped
     return _protected_method
 
+# TODO(sgammon): link in method protection
 # bring up to module-level for syntactic sugar
-public, protected = rpc.remote.public, Service.protect
+public, protected = rpc.remote.public, rpc.remote.public

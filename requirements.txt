@@ -10,3 +10,4 @@ apache-libcloud
 google-api-python-client
 colorlog
 coverage
+uwsgi

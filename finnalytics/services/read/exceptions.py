@@ -20,7 +20,7 @@
 '''
 
 # base
-from base import rpc
+from finnalytics.base import rpc
 
 
 class ReadAPIException(rpc.premote.ApplicationError):
