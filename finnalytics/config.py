@@ -50,7 +50,15 @@ config = cfg.Config(app={
   # App paths
   'paths': {
 
-    'assets': os.path.join(app, 'assets'),
+    'assets': {
+      'js': os.path.join(app, 'assets', 'js'),
+      'img': os.path.join(app, 'assets', 'img'),
+      'less': os.path.join(app, 'assets', 'less'),
+      'sass': os.path.join(app, 'assets', 'sass'),
+      'style': os.path.join(app, 'assets', 'style'),
+      'coffee': os.path.join(app, 'assets', 'coffee')
+    },
+
     'favicon': os.path.join(app, 'assets', 'img', 'favicon.ico'),
 
     'templates': {
