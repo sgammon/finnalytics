@@ -25,22 +25,23 @@ USER?=`whoami`
 SANDBOX_GIT?=$(USER)@sandbox
 CANTEEN_BRANCH?=master
 SCRATCHSPACE=.develop
-BREW=openssl python haproxy redis nginx pypy uwsgi
+BREW?=1
+BREWDEPS=openssl python haproxy redis nginx pypy
+
 
 ## Flags
 TEST_FLAGS ?= --verbose --with-coverage --cover-package=finnalytics --cover-package=finnalytics_tests
 
 
 all: develop
-	@which zsh || echo "We noticed you're using bash or something. Execute 'source bin/activate' to go begin."
+	@which zsh > /dev/null 2>/dev/null || echo "We noticed you're using bash or something. Execute 'source bin/activate' to go begin."
 	@echo "~~ im finna count some shit ~~"
-	@which zsh && zsh -c "source bin/activate" -i
+	@which zsh > /dev/null 2>/dev/null && zsh -c "source $(PWD)/bin/activate" -i
 
 test: build
 	@bin/nosetests $(TEST_FLAGS) canteen_tests finnalytics_tests
 
 build: .Python canteen dependencies npm env
-	@echo "Built finnalytics."
 
 develop: build
 	@echo "Updating source dependencies..."
@@ -93,14 +94,20 @@ dependencies: $(PWD)/lib/closure/compiler.jar
 	@which pip || sudo easy_install pip
 	@which virtualenv || pip install virtualenv
 
-	@which brew && brew install $(BREW) 2> /dev/null
-
 	@# make virtualenv and install stuffs
 	@virtualenv .
 
 	@# symlink environment
 	@ln -s $(PWD)/scripts/finna.py $(PWD)/bin/finna
 	@chmod +x $(PWD)/bin/finna
+
+ifeq ($BREW,1)
+brew:
+	@which brew && brew install $(BREW) 2> /dev/null
+else
+brew:
+	@echo "Skipping brew."
+endif
 
 npm: $(PWD)/node_modules
 $(PWD)/node_modules:
