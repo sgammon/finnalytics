@@ -124,7 +124,7 @@ $(PWD)/lib/canteen: $(PWD)/lib/python2.7/site-packages/canteen.pth
 	@echo "Cloning as user $(USER)..."
 	@git clone https://github.com/momentum/canteen.git $(PWD)/lib/canteen -b $(CANTEEN_BRANCH)
 	@echo "Building Canteen..."
-	@pushd lib/canteen && $(MAKE) DEPS=0 VIRTUALENV=0
+	@pushd lib/canteen && $(MAKE) DEPS=1 VIRTUALENV=0
 
 $(PWD)/lib/closure/build/compiler.jar:
 	@echo "Downloading Closure Compiler..."
