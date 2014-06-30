@@ -114,7 +114,7 @@ env: $(PWD)/$(SCRATCHSPACE)
 $(PWD)/.develop: $(PWD)/node_modules
 	@echo "Making develop scratchspace..."
 	@-mkdir -p $(SCRATCHSPACE)/ $(SCRATCHSPACE)/maps/finnalytics/assets/{coffee,style,less,sass,js}
-	@-chmod 777 $(SCRATCHSPACE) -R
+	@-chmod -R 777 $(SCRATCHSPACE)
 
 	@echo "Initializing frontend..."
 	@-ln -s node_modules/gulp/bin/gulp ./bin/gulp
@@ -124,8 +124,15 @@ canteen: $(PWD)/lib/canteen
 $(PWD)/lib/canteen: $(PWD)/lib/python2.7/site-packages/canteen.pth
 	@echo "Cloning as user $(USER)..."
 	@git clone https://github.com/momentum/canteen.git $(PWD)/lib/canteen -b $(CANTEEN_BRANCH)
+
+	@echo "Installing Canteen dependencies..."
+	@bin/pip install -r lib/canteen/requirements.txt
+
+	@echo "Installing Canteen development tools..."
+	@bin/pip install -r lib/canteen/dev_requirements.txt
+
 	@echo "Building Canteen..."
-	@pushd lib/canteen && $(MAKE) DEPS=1 VIRTUALENV=0
+	@pushd lib/canteen && $(MAKE) DEPS=0 VIRTUALENV=0
 
 $(PWD)/lib/closure/build/compiler.jar:
 	@echo "Downloading Closure Compiler..."
