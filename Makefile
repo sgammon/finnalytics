@@ -46,10 +46,6 @@ build: .Python canteen dependencies npm env
 develop: build
 	@echo "Updating source dependencies..."
 
-canteen: $(PWD)/lib/python2.7/site-packages/canteen.pth
-	@echo "Cloning as user $(USER)..."
-	@git clone https://github.com/momentum/canteen.git $(PWD)/lib/canteen -b $(CANTEEN_BRANCH)
-
 package: develop
 	@echo "Making buildroot..."
 	@mkdir -p dist/ build/
@@ -84,10 +80,10 @@ distclean: clean
 	@echo "Cleaning codebase..."
 	@git clean -xdf
 
-dependencies: $(PWD)/lib/closure/compiler.jar
+dependencies: $(PWD)/lib/closure/build/compiler.jar
 	@# install pip dependencies
 	@bin/pip install colorlog
-	@bin/pip install -r requirements.txt
+	@bin/pip install --upgrade -r requirements.txt
 
 .Python:
 	@# install pip/virtualenv if we have to
@@ -124,7 +120,12 @@ $(PWD)/.develop: $(PWD)/node_modules
 	@-ln -s node_modules/gulp/bin/gulp ./bin/gulp
 	@-bin/gulp
 
-$(PWD)/lib/closure/compiler.jar:
+canteen: $(PWD)/lib/canteen
+$(PWD)/lib/canteen: $(PWD)/lib/python2.7/site-packages/canteen.pth
+	@echo "Cloning as user $(USER)..."
+	@git clone https://github.com/momentum/canteen.git $(PWD)/lib/canteen -b $(CANTEEN_BRANCH)
+
+$(PWD)/lib/closure/build/compiler.jar:
 	@echo "Downloading Closure Compiler..."
 	@-wget http://dl.google.com/closure-compiler/compiler-latest.zip
 	@-mkdir -p $(PWD)/lib/closure
