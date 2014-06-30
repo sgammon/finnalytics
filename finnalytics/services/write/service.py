@@ -19,18 +19,15 @@
 
 '''
 
-# app
-import models
-
 # service
 from . import exceptions
 
 # base
-from base import rpc, Service
-from base import public, protected
+from finnalytics import models
+from finnalytics.base import rpc, public, Service
 
 
-@public('write', version='v1')
+@public('write', version='v0')
 class WriteAPI(Service):
 
   '''  '''

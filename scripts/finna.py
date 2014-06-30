@@ -25,7 +25,7 @@ __author__ = "momentum labs, ltd"
 
 
 # stdlib
-import os, sys
+import os, sys, subprocess, time, StringIO
 
 project_root = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 sys.path.insert(0, project_root)
@@ -35,7 +35,7 @@ sys.path.insert(0, os.path.join(project_root, 'finnalytics'))
 sys.path.insert(0, os.path.join(project_root, 'finnalytics/lib'))
 
 # finnalytics
-import finnalytics
+import finnalytics, canteen
 from finnalytics import config
 from finnalytics import logic
 from finnalytics import pages
@@ -53,6 +53,20 @@ from canteen.util import cli, debug
 
 ## Globals
 logging = debug.Logger(name='finna')
+UWSGI_BASE_ARGS, UWSGI_PROD_ARGS = [
+  "--pcre-jit",
+  "--vacuum",
+  "--py-autoreload",
+  "--pidfile=/tmp/finnalytics.pid",
+  "--wsgi=finnalytics.dispatch:application",
+  "--shared-import=finnalytics",
+  "--shared-import=werkzeug",
+  "--shared-import=canteen",
+  "--shared-import=jinja2",
+], [
+  "--optimize",
+  "--uwsgi=127.0.0.1:3000"
+]
 
 
 class Finnalytics(cli.Tool):
@@ -75,6 +89,9 @@ class Finnalytics(cli.Tool):
     arguments = (
       ('--ip', '-i', {'type': str, 'help': 'address to bind to'}),
       ('--port', '-p', {'type': int, 'help': 'port to bind to'}),
+      ('--production', '-p', {'action': 'store_true', 'help': 'simulate production'}),
+      ('--no-nginx', '-nn', {'action': 'store_true', 'help': 'don\'t startup nginx when simulating production'}),
+      ('--no-haproxy', '-nh', {'action': 'store_true', 'help': 'don\'t startup haproxy when simulating production'})
     )
 
     def execute(arguments):
@@ -89,14 +106,62 @@ class Finnalytics(cli.Tool):
           result of the call. ``Falsy`` return values will be passed to
           :py:meth:`sys.exit` and converted into Unix-style return codes. '''
 
-      import finnalytics, canteen
-      from finnalytics.config import config
+      if production:
+        raise ValueError('production simulation isn\'t supported for local yet')
 
       canteen.run(finnalytics, **{
-        'port': arguments.port or 8080,
+        'port': arguments.port or 9001,
         'interface': arguments.ip or '127.0.0.1',
         'config': config or {}
       })
+
+
+  class Shell(cli.Tool):
+
+    ''' Runs a local or simulated production shell. '''
+
+    arguments = (
+      ('--production', '-p', {'action': 'store_true', 'help': 'simulate production'}),
+    )
+
+    def execute(arguments):
+
+      ''' Execute the ``finna shell`` tool, given a set of arguments packaged
+          as a :py:class:`argparse.Namespace`.
+
+          :param arguments: Product of the ``parser.parse_args()`` call,
+          dispatched by ``canteen`` or manually.
+
+          :returns: Python value ``True`` or ``False`` depending on the
+          result of the call. ``Falsy`` return values will be passed to
+          :py:meth:`sys.exit` and converted into Unix-style return codes. '''
+
+      # assemble uWSGI arguments
+      uwsgi_args = [
+
+        # uwsgi path
+        os.path.join(project_root, 'bin', 'uwsgi'),
+
+        # base interactive flags
+        "--socket=/tmp/finnalytics.sock",
+        "--pyshell"
+
+      ] + UWSGI_BASE_ARGS + (UWSGI_PROD_ARGS if arguments.production else [])
+
+      try:
+        # spawn uWSGI
+        shell = subprocess.Popen(uwsgi_args,
+          stdin=sys.stdin,
+          stdout=sys.stdout,
+          stderr=sys.stderr
+        )
+
+        returncode = shell.wait()
+
+      except KeyboardInterrupt:
+        shell.terminate()
+        time.sleep(1)  # sleep a second to let console shut up
+      sys.stdin, sys.stdout, sys.stderr = (StringIO.StringIO() for x in (0, 1, 2))
 
 
   class Build(cli.Tool):

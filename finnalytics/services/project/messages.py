@@ -19,11 +19,11 @@
 
 '''
 
-# app
-import models
-
 # canteen
 from canteen import model
+
+# app
+from finnalytics import models
 
 
 class Projects(model.Model):

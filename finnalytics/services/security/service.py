@@ -24,11 +24,11 @@ from . import messages
 from . import exceptions
 
 # base
-from base import rpc, Service
-from base import public, protected
+from finnalytics.base import rpc, Service
+from finnalytics.base import public, protected
 
 
-@public('security', version='v1')
+@public('security', version='v0')
 class SecurityAPI(Service):
 
   '''  '''
@@ -37,28 +37,28 @@ class SecurityAPI(Service):
     'generic': exceptions.SecurityAPIException
   })
 
-  @public
+  #@public
   def auth(self, request):
 
     '''  '''
 
     raise self.exceptions.generic('stubbed')
 
-  @public
+  #@public
   def signup(self, request):
 
     '''  '''
 
     raise self.exceptions.generic('stubbed')
 
-  @protected
+  #@protected
   def sync(self, request):
 
     '''  '''
 
     raise self.exceptions.generic('stubbed')
 
-  @protected
+  #@protected
   def link(self, request):
 
     '''  '''
