@@ -134,6 +134,20 @@ $(PWD)/lib/canteen: $(PWD)/lib/python2.7/site-packages/canteen.pth
 	@echo "Building Canteen..."
 	@pushd lib/canteen && $(MAKE) DEPS=0 VIRTUALENV=0
 
+canteen: $(PWD)/lib/canteen
+$(PWD)/lib/canteen: $(PWD)/lib/python2.7/site-packages/canteen.pth
+	@echo "Cloning as user $(USER)..."
+	@git clone https://github.com/momentum/canteen.git $(PWD)/lib/canteen -b $(CANTEEN_BRANCH)
+
+	@echo "Installing Canteen dependencies..."
+	@bin/pip install -r lib/canteen/requirements.txt
+
+	@echo "Installing Canteen development tools..."
+	@bin/pip install -r lib/canteen/dev_requirements.txt
+
+	@echo "Building Canteen..."
+	@pushd lib/canteen && $(MAKE) DEPS=0 VIRTUALENV=0
+
 $(PWD)/lib/closure/build/compiler.jar:
 	@echo "Downloading Closure Compiler..."
 	@-wget http://dl.google.com/closure-compiler/compiler-latest.zip
