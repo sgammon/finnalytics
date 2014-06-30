@@ -8,6 +8,3 @@ fabric
 gsutil
 apache-libcloud
 google-api-python-client
-git+ssh://git@github.com/sgammon/protobuf.git#egg=protobuf
-git+ssh://git@github.com/sgammon/hamlish-jinja.git#egg=hamlish_jinja
-git+ssh://git@github.com/sgammon/canteen.git#egg=canteen
