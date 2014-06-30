@@ -35,7 +35,7 @@ sys.path.insert(0, os.path.join(project_root, 'finnalytics'))
 sys.path.insert(0, os.path.join(project_root, 'finnalytics/lib'))
 
 # finnalytics
-import finnalytics, canteen
+import canteen, finnalytics
 from finnalytics import config
 from finnalytics import logic
 from finnalytics import pages

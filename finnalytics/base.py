@@ -31,6 +31,12 @@ logging = stdlog.getLogger('finnalytics')
 log_handler = stdlog.StreamHandler(sys.stdout)
 logging.addHandler(log_handler), logging.setLevel(stdlog.DEBUG if __debug__ else stdlog.WARNING)
 
+# try to detect uwsgi
+try:
+  from canteen.runtime.uwsgi import uWSGI
+except ImportError:
+  uWSGI = False
+
 try:
   from colorlog import ColoredFormatter
 except ImportError:
@@ -138,6 +144,23 @@ class Service(rpc.Service):
     # enforce authentication/authorization (mounted by `initialize`)
 
   @classmethod
+  def method(cls, *args, **kwargs):
+
+    ''' passthrough to the standard decorator for registering a new service
+        method, but also with app logic. '''
+
+    wrapped = rpc.remote.register(*args, **kwargs)
+
+    def _outer_register(target):
+
+      '''  '''
+
+      if isinstance(target, type) and issubclass(target, rpc.Service) and uWSGI:
+        uWSGI.register_rpc(target)
+      return wrapped(target)
+    return _outer_register
+
+  @classmethod
   def protect(cls, *args):
 
     ''' class-level decorator to transparently apply auth protection of various levels
@@ -158,6 +181,7 @@ class Service(rpc.Service):
       return wrapped
     return _protected_method
 
+
 # TODO(sgammon): link in method protection
 # bring up to module-level for syntactic sugar
-public, protected = rpc.remote.public, rpc.remote.public
+public, protected = Service.method, Service.method
